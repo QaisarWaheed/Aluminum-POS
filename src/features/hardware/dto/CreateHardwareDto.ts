@@ -35,4 +35,6 @@ export class CreateHardwareInvoiceDto {
 
   @ApiProperty()
   grandTotal: number;
+
+  invoiceNo: number;
 }

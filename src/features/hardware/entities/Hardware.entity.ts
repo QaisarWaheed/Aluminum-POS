@@ -23,7 +23,7 @@ const ProductSchema = SchemaFactory.createForClass(Hardware);
 @Schema({ timestamps: true })
 export class Invoice {
   @Prop()
-  invoiceId: number;
+  invoiceNo: number;
 
   @Prop({ required: true, default: 'azib' })
   customerName: string;

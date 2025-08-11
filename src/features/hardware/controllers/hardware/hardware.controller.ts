@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   NotFoundException,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
@@ -12,6 +13,8 @@ import { ApiTags, ApiResponse } from '@nestjs/swagger';
 import { Model } from 'mongoose';
 import { Hardware } from '../../entities/Hardware.entity';
 import { CreateHardwareInvoiceDto } from '../../dto/CreateHardwareDto';
+import { Counter } from 'src/features/shared/counter.entity';
+import { HardwareCounter } from 'src/features/shared/hardwareId.entity';
 
 @ApiTags('Hardware')
 @Controller('hardware')
@@ -19,16 +22,26 @@ export class HardwareController {
   constructor(
     @InjectModel(Hardware.name)
     private readonly invoiceRepo: Model<Hardware>,
+    @InjectModel(HardwareCounter.name)
+    private readonly counterModel: Model<HardwareCounter>,
   ) {}
 
   @Post('/add-hardware')
   @ApiResponse({ status: 201, description: 'Invoice created successfully' })
   async createInvoice(@Body() dto: CreateHardwareInvoiceDto) {
+    const counter = await this.counterModel.findOneAndUpdate(
+      { name: 'invoiceNo' },
+      { $inc: { seq: 1 } },
+      { new: true, upsert: true },
+    );
+
+    dto.invoiceNo = counter.seq;
+
     dto.totalAmount = 0;
     dto.grandTotal = 0;
+
     for (let i = 0; i < dto.products.length; i++) {
-      const data = (dto.products[i].amount =
-        dto.products[i].quantity * dto.products[i].rate);
+      dto.products[i].amount = dto.products[i].quantity * dto.products[i].rate;
 
       dto.totalAmount += dto.products[i].amount;
       dto.grandTotal += Number(dto.previousAmount) + dto.totalAmount;
@@ -39,18 +52,33 @@ export class HardwareController {
     return {
       message: 'Invoice saved!',
       data: invoice,
+      invoiceNo: dto.invoiceNo,
     };
   }
 
-  @Get('/allInvoices')
+  @Get('allInvoices')
   async getAllInvoice() {
-    const invoice = await this.invoiceRepo.find();
-    return invoice;
+    return this.invoiceRepo.find();
   }
 
-  @Get('/find-by-id/:id')
-  async getInvoice(@Param('id') id: string) {
-    const invoice = await this.invoiceRepo.findById(id);
+  @Get('latest-invoice-no')
+  async getLatestInvoiceNo() {
+    const counter = await this.counterModel.findOne({ name: 'invoiceNo' });
+
+    const latestInvoiceNo = counter ? counter.seq : 0;
+
+    return { latestInvoiceNo };
+  }
+
+  @Get('/next-invoice-id')
+  async getNextInvoiceId(): Promise<number> {
+    const counter = await this.counterModel.findOne({ name: 'invoiceNo' });
+    return counter ? counter.seq + 1 : 1;
+  }
+
+  @Get('/find-invoice/:id')
+  async getInvoice(@Param('id', ParseIntPipe) id: number) {
+    const invoice = await this.invoiceRepo.findOne({ invoiceNo: id });
     if (!invoice) throw new NotFoundException('Invoice not found');
     return invoice;
   }

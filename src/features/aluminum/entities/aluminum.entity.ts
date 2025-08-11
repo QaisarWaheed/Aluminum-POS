@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { Document } from 'mongoose';
+import { Document } from 'mongoose';
 
 export type InvoiceDocument = Invoice & Document;
 
@@ -35,7 +35,7 @@ const ProductSchema = SchemaFactory.createForClass(Aluminum);
 @Schema({ timestamps: true })
 export class Invoice {
   @Prop()
-  invoiceId: number;
+  invoiceNo: number;
 
   @Prop({ required: true })
   customerName: string;
