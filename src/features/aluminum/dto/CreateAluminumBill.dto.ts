@@ -52,5 +52,14 @@ export class CreateInvoiceDto {
   @ApiProperty()
   totalAmount: number;
 
+  @ApiProperty()
+  receivedAmount: number;
+
+  @ApiProperty()
+  hardwareAmount: number;
+
+  @ApiProperty()
+  grandTotal: number;
+
   invoiceNo: number;
 }

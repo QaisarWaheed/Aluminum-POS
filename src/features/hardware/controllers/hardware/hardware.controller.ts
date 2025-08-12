@@ -6,6 +6,7 @@ import {
   Param,
   NotFoundException,
   ParseIntPipe,
+  BadRequestException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
@@ -29,6 +30,10 @@ export class HardwareController {
   @Post('/add-hardware')
   @ApiResponse({ status: 201, description: 'Invoice created successfully' })
   async createInvoice(@Body() dto: CreateHardwareInvoiceDto) {
+    if (!Array.isArray(dto.products)) {
+      throw new BadRequestException('Products must be an array');
+    }
+
     const counter = await this.counterModel.findOneAndUpdate(
       { name: 'invoiceNo' },
       { $inc: { seq: 1 } },
@@ -36,19 +41,28 @@ export class HardwareController {
     );
 
     dto.invoiceNo = counter.seq;
-
+    console.log(counter.seq);
     dto.totalAmount = 0;
     dto.grandTotal = 0;
 
-    for (let i = 0; i < dto.products.length; i++) {
-      dto.products[i].amount = dto.products[i].quantity * dto.products[i].rate;
+    for (const product of dto.products) {
+      const quantity = Number(product.quantity) || 0;
+      const rate = Number(product.rate) || 0;
+      const aluminumTotal = Number(dto.aluminumTotal) || 0;
+      const previousAmount = Number(dto.previousAmount) || 0;
 
-      dto.totalAmount += dto.products[i].amount;
-      dto.grandTotal += Number(dto.previousAmount) + dto.totalAmount;
+      const amount = parseFloat(
+        (quantity * rate + aluminumTotal + previousAmount).toFixed(2),
+      );
+      product.amount = amount;
+
+      dto.totalAmount += amount;
+      dto.grandTotal = Number(
+        dto.totalAmount - (Number(dto.receivedAmount) || 0),
+      );
     }
 
     const invoice = await this.invoiceRepo.create(dto);
-
     return {
       message: 'Invoice saved!',
       data: invoice,

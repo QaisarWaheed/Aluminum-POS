@@ -27,14 +27,18 @@ export class CreateHardwareInvoiceDto {
   @ApiProperty({ type: [ProductDto] })
   products: ProductDto[];
 
-  @ApiProperty()
   totalAmount: number;
 
   @ApiProperty()
   previousAmount: number;
 
-  @ApiProperty()
   grandTotal: number;
+
+  @ApiProperty()
+  receivedAmount: number;
+
+  @ApiProperty()
+  aluminumTotal: number;
 
   invoiceNo: number;
 }

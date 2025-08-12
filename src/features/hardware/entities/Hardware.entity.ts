@@ -44,7 +44,13 @@ export class Invoice {
   previousAmount: number;
 
   @Prop()
+  receivedAmount: number;
+
+  @Prop()
   grandTotal: number;
+
+  @Prop()
+  aluminumTotal: number;
 }
 
 export const HardwareSchema = SchemaFactory.createForClass(Invoice);

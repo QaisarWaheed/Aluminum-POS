@@ -57,6 +57,18 @@ export class Invoice {
 
   @Prop({})
   totalAmount: number;
+
+  @Prop()
+  previousAmount: number;
+
+  @Prop()
+  receivedAmount: number;
+
+  @Prop()
+  grandTotal: number;
+
+  @Prop()
+  hardwareAmount: number;
 }
 
 export const AluminumSchema = SchemaFactory.createForClass(Invoice);
