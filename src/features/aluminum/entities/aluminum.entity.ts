@@ -15,10 +15,10 @@ export class Aluminum {
   quantity: number;
 
   @Prop({ required: true })
-  gaje: number;
+  gaje?: number;
 
   @Prop({ required: true })
-  color: string;
+  color?: string;
 
   @Prop({ required: true })
   rate: number;

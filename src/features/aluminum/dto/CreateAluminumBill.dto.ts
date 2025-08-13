@@ -16,10 +16,10 @@ export class ProductDto {
   qty: number;
 
   @ApiProperty()
-  gaje: number;
+  gaje?: number;
 
   @ApiProperty()
-  color: string;
+  color?: string;
 
   @ApiProperty()
   discount: number;
