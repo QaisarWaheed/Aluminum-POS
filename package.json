@@ -6,9 +6,9 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "start": "node dist/main.js",
-    "start:prod": "node dist/main.js",
-    "start:dev": "nest start --watch",
+    "start": "node api.js && node dist/main.js",
+    "start:prod": "node api.js && node dist/main.js",
+    "start:dev": "node api.js && nest start --watch",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
