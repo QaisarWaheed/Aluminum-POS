@@ -14,19 +14,19 @@ export class Aluminum {
   @Prop({ required: true })
   quantity: number;
 
-  @Prop()
-  gaje?: number;
+  @Prop({ required: false })
+  gaje: number;
 
-  @Prop()
-  color?: string;
+  @Prop({ required: false })
+  color: string;
 
-  @Prop()
+  @Prop({ required: true })
   rate: number;
 
   @Prop()
   discount: number;
 
-  @Prop()
+  @Prop({ required: true })
   amount: number;
 }
 
@@ -37,13 +37,13 @@ export class Invoice {
   @Prop()
   invoiceNo: number;
 
-  @Prop()
+  @Prop({ required: false })
   customerName: string;
 
-  @Prop()
+  @Prop({ required: false })
   companyName: string;
 
-  @Prop()
+  @Prop({ required: false })
   declare date: Date;
 
   @Prop({ default: 'Multan' })
@@ -52,22 +52,22 @@ export class Invoice {
   @Prop({ type: [ProductSchema], default: [] })
   products: Aluminum[];
 
-  @Prop({})
+  @Prop({ required: false })
   discountedAmount: number;
 
-  @Prop({})
+  @Prop({ required: false })
   totalAmount: number;
 
-  @Prop()
+  @Prop({ required: false })
   previousAmount: number;
 
-  @Prop()
+  @Prop({ required: false })
   receivedAmount: number;
 
   @Prop()
   grandTotal: number;
 
-  @Prop()
+  @Prop({ required: false })
   hardwareAmount: number;
 }
 
