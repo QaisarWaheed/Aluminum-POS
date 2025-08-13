@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, IsOptional } from '@nestjs/swagger';
 
 export class ProductDto {
   @ApiProperty()
@@ -29,37 +29,47 @@ export class ProductDto {
 
 export class CreateInvoiceDto {
   @ApiProperty()
-  customerName: string;
+  @IsOptional()
+  customerName?: string;
 
   @ApiProperty()
-  companyName: string;
+  @IsOptional()
+  companyName?: string;
 
   @ApiProperty()
-  date: string;
+  @IsOptional()
+  date?: string;
 
   @ApiProperty()
-  city: string;
+  @IsOptional()
+  city?: string;
 
   @ApiProperty({ type: [ProductDto] })
   products: ProductDto[];
 
   @ApiProperty()
-  discountedAmount: number;
+  @IsOptional()
+  discountedAmount?: number;
 
   @ApiProperty()
-  previousAmount: number;
+  @IsOptional()
+  previousAmount?: number;
 
   @ApiProperty()
-  totalAmount: number;
+  @IsOptional()
+  totalAmount?: number;
 
   @ApiProperty()
-  receivedAmount: number;
+  @IsOptional()
+  receivedAmount?: number;
 
   @ApiProperty()
-  hardwareAmount: number;
+  @IsOptional()
+  hardwareAmount?: number;
 
   @ApiProperty()
-  grandTotal: number;
+  @IsOptional()
+  grandTotal?: number;
 
   invoiceNo: number;
 }

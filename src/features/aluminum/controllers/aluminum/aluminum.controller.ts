@@ -43,24 +43,28 @@ export class AluminumController {
     dto.discountedAmount = 0;
     dto.totalAmount = 0;
 
-    for (const product of dto.products) {
-      const amount = parseFloat(
-        (
-          product.size * product.quantity * product.rate +
-          dto.hardwareAmount +
-          dto.previousAmount
-        ).toFixed(2),
-      );
-      const discountValue = Number((product.discount * amount) / 100);
-      product.amount = Number(amount - discountValue);
+    const hardware = Number(dto.hardwareAmount ?? 0);
+    const previous = Number(dto.previousAmount ?? 0);
+    const received = Number(dto.receivedAmount ?? 0);
 
-      dto.totalAmount += amount;
+    for (const product of dto.products) {
+      const base =
+        Number(product.size ?? 0) *
+        Number(product.quantity ?? 0) *
+        Number(product.rate ?? 0);
+      const amountBeforeDiscount = Number((base + hardware + previous).toFixed(2));
+      const discountValue = Number(
+        (((Number(product.discount ?? 0)) * amountBeforeDiscount) / 100).toFixed(2),
+      );
+      product.amount = Number((amountBeforeDiscount - discountValue).toFixed(2));
+
+      dto.totalAmount += amountBeforeDiscount;
       dto.discountedAmount += discountValue;
     }
 
-    dto.totalAmount = Number(dto.totalAmount);
-    dto.discountedAmount = Number(dto.discountedAmount);
-    dto.grandTotal = dto.totalAmount - dto.receivedAmount;
+    dto.totalAmount = Number(dto.totalAmount.toFixed(2));
+    dto.discountedAmount = Number(dto.discountedAmount.toFixed(2));
+    dto.grandTotal = Number((dto.totalAmount - received).toFixed(2));
 
     const invoice = await this.invoiceRepo.create(dto);
     return {
