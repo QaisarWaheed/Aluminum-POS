@@ -39,11 +39,11 @@ export class CreateInvoiceDto {
 
   @ApiProperty()
   @IsOptional()
-  date?: string;
+  date: string;
 
   @ApiProperty()
   @IsOptional()
-  city?: string;
+  city: string;
 
   @ApiProperty({ type: [ProductDto] })
   products: ProductDto[];
