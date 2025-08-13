@@ -1,4 +1,3 @@
-// invoice.controller.ts
 import {
   Controller,
   Post,
@@ -52,11 +51,17 @@ export class AluminumController {
         Number(product.size ?? 0) *
         Number(product.quantity ?? 0) *
         Number(product.rate ?? 0);
-      const amountBeforeDiscount = Number((base + hardware + previous).toFixed(2));
-      const discountValue = Number(
-        (((Number(product.discount ?? 0)) * amountBeforeDiscount) / 100).toFixed(2),
+      const amountBeforeDiscount = Number(
+        (base + hardware + previous).toFixed(2),
       );
-      product.amount = Number((amountBeforeDiscount - discountValue).toFixed(2));
+      const discountValue = Number(
+        ((Number(product.discount ?? 0) * amountBeforeDiscount) / 100).toFixed(
+          2,
+        ),
+      );
+      product.amount = Number(
+        (amountBeforeDiscount - discountValue).toFixed(2),
+      );
 
       dto.totalAmount += amountBeforeDiscount;
       dto.discountedAmount += discountValue;
