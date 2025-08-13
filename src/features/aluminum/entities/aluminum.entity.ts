@@ -14,16 +14,16 @@ export class Aluminum {
   @Prop({ required: true })
   quantity: number;
 
-  @Prop({ required: true })
+  @Prop()
   gaje?: number;
 
-  @Prop({ required: true })
+  @Prop()
   color?: string;
 
-  @Prop({ required: true })
+  @Prop()
   rate: number;
 
-  @Prop({ required: true })
+  @Prop()
   discount: number;
 
   @Prop()
@@ -37,16 +37,16 @@ export class Invoice {
   @Prop()
   invoiceNo: number;
 
-  @Prop({ required: true })
+  @Prop()
   customerName: string;
 
-  @Prop({ required: true })
+  @Prop()
   companyName: string;
 
   @Prop()
   declare date: Date;
 
-  @Prop({ required: true, default: 'Multan' })
+  @Prop({ default: 'Multan' })
   city: string;
 
   @Prop({ type: [ProductSchema], default: [] })

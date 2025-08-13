@@ -25,13 +25,13 @@ export class Invoice {
   @Prop()
   invoiceNo: number;
 
-  @Prop({ required: true, default: 'azib' })
+  @Prop({ default: 'azib' })
   customerName: string;
 
   @Prop({ required: true })
   date: string;
 
-  @Prop({ required: true, default: 'multan' })
+  @Prop({ default: 'multan' })
   city: string;
 
   @Prop({ type: [ProductSchema], default: [] })
