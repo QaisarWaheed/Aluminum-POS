@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsOptional } from 'class-validator';
 
 export class ProductDto {
   @ApiProperty()
@@ -16,12 +17,14 @@ export class ProductDto {
 
 export class CreateHardwareInvoiceDto {
   @ApiProperty()
+  @IsOptional()
   customerName: string;
 
   @ApiProperty()
   date: string;
 
   @ApiProperty()
+  @IsOptional()
   city: string;
 
   @ApiProperty({ type: [ProductDto] })
