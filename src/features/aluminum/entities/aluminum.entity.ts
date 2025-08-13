@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { IsOptional } from 'class-validator';
 import { Document } from 'mongoose';
 
 export type InvoiceDocument = Invoice & Document;
@@ -37,25 +38,30 @@ export class Invoice {
   @Prop()
   invoiceNo: number;
 
-  @Prop({ required: false })
+  @Prop()
+  @IsOptional()
   customerName: string;
 
-  @Prop({ required: false })
+  @Prop()
+  @IsOptional()
   companyName: string;
 
-  @Prop({ required: false })
+  @Prop()
   declare date: Date;
 
   @Prop({ default: 'Multan' })
+  @IsOptional()
   city: string;
 
   @Prop({ type: [ProductSchema], default: [] })
   products: Aluminum[];
 
-  @Prop({ required: false })
+  @Prop()
+  @IsOptional()
   discountedAmount: number;
 
-  @Prop({ required: false })
+  @Prop()
+  @IsOptional()
   totalAmount: number;
 
   @Prop({ required: false })
